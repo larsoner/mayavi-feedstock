@@ -1,9 +1,8 @@
 bot:
   automerge: true
-build_platform:
-  osx_arm64: osx_64
 conda_build:
   pkg_format: '2'
+conda_build_tool: rattler-build
 conda_forge_output_validation: true
 github:
   branch_name: main
@@ -12,4 +11,8 @@ azure:
   max_parallel: 25
 provider:
   win: azure
+  # build osx-arm64 natively rather than cross-compiling it from osx-64: there
+  # is no compiled code left to cross-compile, and the build has to *run* VTK to
+  # generate tvtk_classes.zip, which a cross build cannot do
+  osx_arm64: default
 test: native_and_emulated
