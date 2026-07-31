@@ -113,6 +113,9 @@ tests:
   - requirements:
       run:
         - pytest
+        # --timeout is a hang catcher, not a performance assertion: upstream CI
+        # uses 10s/60s, but these agents render in software on two cores, so
+        # anything that tight would just go red on a slow machine
         - pytest-timeout
         - pillow
     script:
@@ -125,19 +128,19 @@ tests:
       # number, where bare xvfb-run insists on :99 and dies if it is taken.
       # noqt has no toolkit to drive the tests with at all.
       - if: linux and build_variant != "noqt"
-        then: xvfb-run -a pytest -v --timeout=10 --pyargs mayavi
+        then: xvfb-run -a pytest -v --timeout=300 --pyargs mayavi
       # Bad GC on Linux with PyQt5
       - if: linux and build_variant == "pyside6"
-        then: xvfb-run -a pytest -sv --timeout=60 --pyargs tvtk
+        then: xvfb-run -a pytest -sv --timeout=300 --pyargs tvtk
       # Segfaults on macOS with PyQt5
       - if: osx and build_variant != "pyqt"
         then:
-          - pytest -v --timeout=10 --pyargs mayavi
-          - pytest -sv --timeout=60 --pyargs tvtk
+          - pytest -v --timeout=300 --pyargs mayavi
+          - pytest -sv --timeout=300 --pyargs tvtk
       - if: win
         then:
-          - pytest -v --timeout=10 --pyargs mayavi
-          - pytest -sv --timeout=60 --pyargs tvtk
+          - pytest -v --timeout=300 --pyargs mayavi
+          - pytest -sv --timeout=300 --pyargs tvtk
 
   # tvtk_classes.zip is generated against the newest VTK the host solve picks,
   # but the run requirements claim the whole >=9.4,<9.8 window, and older
@@ -156,8 +159,8 @@ tests:
             - pillow
         script:
           - python -c "import vtk; print('runtime VTK', vtk.vtkVersion().GetVTKVersion())"
-          - xvfb-run -a pytest -v --timeout=10 --pyargs mayavi
-          - xvfb-run -a pytest -sv --timeout=60 --pyargs tvtk
+          - xvfb-run -a pytest -v --timeout=300 --pyargs mayavi
+          - xvfb-run -a pytest -sv --timeout=300 --pyargs tvtk
       - requirements:
           run:
             - vtk-base 9.5.*
@@ -166,8 +169,8 @@ tests:
             - pillow
         script:
           - python -c "import vtk; print('runtime VTK', vtk.vtkVersion().GetVTKVersion())"
-          - xvfb-run -a pytest -v --timeout=10 --pyargs mayavi
-          - xvfb-run -a pytest -sv --timeout=60 --pyargs tvtk
+          - xvfb-run -a pytest -v --timeout=300 --pyargs mayavi
+          - xvfb-run -a pytest -sv --timeout=300 --pyargs tvtk
 
 about:
   homepage: https://github.com/enthought/mayavi
