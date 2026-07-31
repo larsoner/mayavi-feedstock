@@ -24,8 +24,8 @@ source:
   # archive source and the build.script.env block, and delete these comments.
   # url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/${{ name }}-${{ version }}.tar.gz
   # sha256: 0000000000000000000000000000000000000000000000000000000000000000
-  url: https://github.com/enthought/mayavi/archive/7d43f54634cafbec2147241ae8950ae53fccc3e5.tar.gz
-  sha256: 5fb0c8acdf1c0f15eb1b42491dc8039d864b94ef403e5715fc68b1fa26012c6d
+  url: https://github.com/enthought/mayavi/archive/6bc0a6864c8167a54a4971dbb3f0c221be73c5b3.tar.gz
+  sha256: 20956cb9658d196435d26e0e5e6d00d230b0a460303f54f6bc744836f863fec5
 
 build:
   # Since 4.9.0 mayavi has no compiled code: the only thing that varies by
@@ -52,7 +52,7 @@ build:
   string: ${{ build_variant }}_h${{ hash }}_${{ build_number }}
   # DO NOT MERGE, with the archive source above: a main-branch archive now
   # carries a version (enthought/mayavi#1392), but it describes itself as
-  # 4.8.4.dev20+g7d43f5463 -- neither the version this recipe claims nor
+  # 4.8.4.dev22+g6bc0a6864 -- neither the version this recipe claims nor
   # something conda should ship.  A real 4.9.0 sdist needs none of this; delete
   # the whole script block, and build.sh/build.bat are found again by name.
   script:
