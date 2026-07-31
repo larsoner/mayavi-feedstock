@@ -35,6 +35,14 @@ build:
   # platform subdir while dropping the python version from its dependencies.
   python:
     version_independent: true
+    # Declared here rather than left to pip, which honours pyproject's
+    # [project.gui-scripts] and so builds mayavi2.exe from pythonw.exe on
+    # Windows -- no console, so "mayavi2 --help" cannot write to stdout and
+    # exits 1.  conda-build generated console wrappers for these before 4.9.0
+    # and Windows users have had a working CLI on that basis.
+    entry_points:
+      - mayavi2 = mayavi.scripts.mayavi2:main
+      - tvtk_doc = tvtk.tools.tvtk_doc:main
   # ... which means building it once, against python_min, rather than per-Python
   skip: not is_python_min
   # The offsets keep the solver's default preference pyqt > pyside6 > noqt, as
@@ -154,6 +162,12 @@ tests:
       - requirements:
           run:
             - vtk-base 9.4.*
+            # vtkmodules/numpy_interface/algorithms.py does
+            # "in1d = _make_ufunc(numpy.in1d)" at import time in 9.4 and 9.5,
+            # and numpy removed in1d in 2.4, so those two cannot be imported at
+            # all next to a current numpy.  Upstream's CI pins its 9.4/9.5 rows
+            # the same way; 9.6 dropped the reference and needs no pin.
+            - numpy <2.4
             - pytest
             - pytest-timeout
             - pillow
@@ -164,6 +178,7 @@ tests:
       - requirements:
           run:
             - vtk-base 9.5.*
+            - numpy <2.4  # see above
             - pytest
             - pytest-timeout
             - pillow
