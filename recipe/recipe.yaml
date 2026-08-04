@@ -18,14 +18,8 @@ package:
   version: ${{ version }}
 
 source:
-  # DO NOT MERGE: 4.9.0 is not on PyPI yet, so this builds the tip of
-  # enthought/mayavi's main branch instead, to exercise the recipe in CI.  To
-  # release: uncomment the two lines below, fill in the real sha256, delete the
-  # archive source and the build.script.env block, and delete these comments.
-  # url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/${{ name }}-${{ version }}.tar.gz
-  # sha256: 0000000000000000000000000000000000000000000000000000000000000000
-  url: https://github.com/enthought/mayavi/archive/6bc0a6864c8167a54a4971dbb3f0c221be73c5b3.tar.gz
-  sha256: 20956cb9658d196435d26e0e5e6d00d230b0a460303f54f6bc744836f863fec5
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/${{ name }}-${{ version }}.tar.gz
+  sha256: d12cfb362a658b0d99f088184abb6dca805d8accc437bd5e8131c221987783de
 
 build:
   # Since 4.9.0 mayavi has no compiled code: the only thing that varies by
