@@ -44,15 +44,8 @@ build:
   # prefix keeps `conda install "mayavi=*=pyside6_*"` selecting a variant.
   number: ${{ build_base + (300 if build_variant == "pyqt" else 200 if build_variant == "pyside6" else 100) }}
   string: ${{ build_variant }}_h${{ hash }}_${{ build_number }}
-  # DO NOT MERGE, with the archive source above: a main-branch archive now
-  # carries a version (enthought/mayavi#1392), but it describes itself as
-  # 4.8.4.dev22+g6bc0a6864 -- neither the version this recipe claims nor
-  # something conda should ship.  A real 4.9.0 sdist needs none of this; delete
-  # the whole script block, and build.sh/build.bat are found again by name.
   script:
     file: build
-    env:
-      SETUPTOOLS_SCM_PRETEND_VERSION: ${{ version }}
 
 requirements:
   # vtk-base run-exports an exact "vtk-base >=9.6.2,<9.6.3.0a0" pin, which would
